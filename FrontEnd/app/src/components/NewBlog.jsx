@@ -51,7 +51,7 @@ export const NewBlog = () => {
             // sx={{ gridColumn: "span 2" }}
           />
         </Box>
-        <Button variant="contained" color="success">
+        <Button variant="contained" color="success" sx={{ marginTop: '30px' }}>
           Submit
         </Button>
       </Box>
