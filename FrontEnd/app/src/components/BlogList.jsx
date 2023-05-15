@@ -11,6 +11,7 @@ export const BlogList = () => {
 
     const handleOnClick =()=>{
         console.log('Mane paspaude')
+        
     }
   return ( 
     <>
@@ -19,7 +20,7 @@ export const BlogList = () => {
         <ListItemAvatar>
         <Avatar sx={{ bgcolor: 'purple' }}>A</Avatar>
         </ListItemAvatar>
-        <BlogItem />
+        <BlogItem onClick={handleOnClick}/>
       </ListItem>
       <Divider variant="inset" component="li" />
       <ListItem alignItems="flex-start">

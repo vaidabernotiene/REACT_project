@@ -1,60 +1,89 @@
-import { Box, Button, TextField } from "@mui/material";
+import {
+  Card,
+  Button,
+  CardHeader,
+  TextField,
+  CardContent,
+} from "@mui/material";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export const NewBlog = () => {
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    blogTitle: "",
+    blogMainText: "",
+    blogFooter: "",
+  });
+
+  const handleOnChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  console.log(formData);
+
+  const handleOnSubmit = (e) => {
+    e.preventDefault();
+    // POST request i "http://localhost:5000........"
+    axios
+      .post("http://localhost:5000/", formData)
+      .then((response) => {
+        console.log(response);
+        setTimeout(() => {
+          navigate("/");
+        }, 1000);
+      })
+      .catch((err) => console.log(err));
+  };
+
   return (
     <>
-      <Box m="20px" maxWidth="sm">
-        <Box
-          display="grid"
-          gap="30px"
-          m="40px 0 0 0"
-          gridTemplateColumns="repeat(1, minmax(0, 1fr))"
-        >
-          <header>NEW BLOG COMPONENT</header>
-          <TextField
+      <Card sx={{ maxWidth: 345 }}>
+        <CardContent>
+          <CardHeader title="NEW BLOG"></CardHeader>
+          <TextField sx={{ marginBottom: "10px"}}
             fullWidth
             variant="filled"
             type="text"
-            label="Blog Header"
-            // onBlur={handleBlur}
-            // onChange={handleChange}
-            // value={values.firstName}
-            name="blogHeader"
-            // error={!!touched.firstName && !!errors.firstName}
-            // helperText={touched.firstName && errors.firstName}
-            // sx={{ gridColumn: "span 2" }}
+            name="blogTitle"
+            label="Title"
+            onChange={handleOnChange}
+            required
           />
-          <TextField
+          <TextField sx={{ marginBottom: "10px"}}
             fullWidth
             variant="filled"
             type="text"
-            label="Blog Text"
-            // onBlur={handleBlur}
-            // onChange={handleChange}
-            // value={values.lastName}
             name="blogMainText"
-            // error={!!touched.lastName && !!errors.lastName}
-            // helperText={touched.lastName && errors.lastName}
-            // sx={{ gridColumn: "span 2" }}
+            label="Text"
+            multiline
+            rows={4}
+            onChange={handleOnChange}
+            required
           />
           <TextField
             fullWidth
             variant="filled"
             type="text"
-            label="Blog Footer"
-            // onBlur={handleBlur}
-            // onChange={handleChange}
-            // value={values.email}
             name="blogFooter"
-            // error={!!touched.email && !!errors.email}
-            // helperText={touched.email && errors.email}
-            // sx={{ gridColumn: "span 2" }}
+            label="Username"
+            onChange={handleOnChange}
+            required
           />
-        </Box>
-        <Button variant="contained" color="success" sx={{ marginTop: '30px' }}>
-          Submit
-        </Button>
-      </Box>
+          <Button
+            variant="contained"
+            color="success"
+            sx={{ marginTop: "30px", width: '100%'}}
+            onSubmit={handleOnSubmit}
+          >
+            Submit
+          </Button>
+        </CardContent>
+      </Card>
     </>
   );
 };
