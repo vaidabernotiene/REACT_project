@@ -1,35 +1,45 @@
-import * as React from 'react';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import Divider from '@mui/material/Divider';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
-import Avatar from '@mui/material/Avatar';
+import * as React from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { BlogItem } from "./BlogItem";
-import { useEffect, useState, useContext, useMemo } from "react";
+import { Card, CardContent } from "@mui/material";
 
 export const BlogList = () => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [posts, setPosts] = useState(null);
 
-    const handleOnClick =()=>{
-        console.log('Mane paspaude')
-        
-    }
-  return ( 
+  useEffect(() => {
+    axios.get("http://localhost:5000/posts")
+      .then((resp) => {
+        setPosts(resp.data); // resp arba response arba betkas.data => pagal nutylejima
+        setIsLoading(false);
+      });
+  }, []);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  return (
     <>
-     <List sx={{ width: '100%', maxWidth: 460, bgcolor: 'background.paper' }}>
-      <ListItem alignItems="flex-start">
-        <ListItemAvatar>
-        <Avatar sx={{ bgcolor: 'purple' }}>A</Avatar>
-        </ListItemAvatar>
-        <BlogItem onClick={handleOnClick}/>
-      </ListItem>
-      <Divider variant="inset" component="li" />
-      <ListItem alignItems="flex-start">
-        <ListItemAvatar>
-        <Avatar sx={{ bgcolor: 'purple' }}>B</Avatar>
-        </ListItemAvatar>
-        <BlogItem onClick={handleOnClick}/>
-      </ListItem>
-    </List>
+      <Card
+        sx={{
+          bgcolor: "background.paper",
+          margin: "20px 0",
+        }}
+      >
+        <CardContent
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "stretch",
+          }}
+        >
+          {posts.map((post) => (
+            <BlogItem key={post.id} post={post} />
+          ))}
+        </CardContent>
+      </Card>
     </>
   );
 };

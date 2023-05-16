@@ -12,9 +12,9 @@ import axios from "axios";
 export const NewBlog = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    blogTitle: "",
-    blogMainText: "",
-    blogFooter: "",
+    title: "",
+    text: "",
+    username: "",
   });
 
   const handleOnChange = (e) => {
@@ -24,32 +24,28 @@ export const NewBlog = () => {
     });
   };
 
-  console.log(formData);
-
   const handleOnSubmit = (e) => {
     e.preventDefault();
     // POST request i "http://localhost:5000........"
     axios
-      .post("http://localhost:5000/", formData)
+      .post("http://localhost:5000/posts", formData)
       .then((response) => {
         console.log(response);
-        setTimeout(() => {
           navigate("/");
-        }, 1000);
       })
       .catch((err) => console.log(err));
   };
 
   return (
     <>
-      <Card sx={{ maxWidth: 345 }}>
+      <Card sx={{ maxWidth:"sm", margin: '20px 0' }}>
         <CardContent>
           <CardHeader title="NEW BLOG"></CardHeader>
           <TextField sx={{ marginBottom: "10px"}}
             fullWidth
             variant="filled"
             type="text"
-            name="blogTitle"
+            name="title"
             label="Title"
             onChange={handleOnChange}
             required
@@ -58,7 +54,7 @@ export const NewBlog = () => {
             fullWidth
             variant="filled"
             type="text"
-            name="blogMainText"
+            name="text"
             label="Text"
             multiline
             rows={4}
@@ -69,7 +65,7 @@ export const NewBlog = () => {
             fullWidth
             variant="filled"
             type="text"
-            name="blogFooter"
+            name="username"
             label="Username"
             onChange={handleOnChange}
             required
@@ -78,7 +74,7 @@ export const NewBlog = () => {
             variant="contained"
             color="success"
             sx={{ marginTop: "30px", width: '100%'}}
-            onSubmit={handleOnSubmit}
+            onClick={handleOnSubmit}
           >
             Submit
           </Button>

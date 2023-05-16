@@ -1,31 +1,55 @@
 import * as React from "react";
 import ListItemText from "@mui/material/ListItemText";
 import Typography from "@mui/material/Typography";
-import Button from '@mui/material/Button';
+import Button from "@mui/material/Button";
+import Divider from "@mui/material/Divider";
+import ListItemAvatar from "@mui/material/ListItemAvatar";
+import Avatar from "@mui/material/Avatar";
+import { useState } from "react";
 
-export const BlogItem = ({onClick}) => {
-  const text = " is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.…"
-  const shortText = text.slice(0, 50) + '...'
+export const BlogItem = ({ post }) => {
+  const { title, text, username } = post;
+  const [textLength, setTextLength] = useState(text.slice(0, 30) + "... ");
+  const [showText, setShowText] = useState(false);
+
+  const handleOnClick = () => {
+    setShowText(!showText);
+    setTextLength(text);
+  };
 
   return (
     <>
       <ListItemText
-        primary="Pavadinimas"
+        primary={
+          <ListItemAvatar>
+            <Avatar sx={{ bgcolor: "purple" }}>{title[0]}</Avatar>
+          </ListItemAvatar>
+        }
         secondary={
           <React.Fragment>
+            <Typography>{title}</Typography>
             <Typography
-              sx={{ display: "inline" }}
               component="span"
-              variant="body2"
-              color="text.primary"
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
             >
-              Lorem Ipsum
+              <Typography component="span" variant="body2" color="text.primary">
+              {!showText ? <p>{textLength}</p> : <p>{text}</p>}
+              </Typography>
+              <Button variant="contained" onClick={handleOnClick}>
+                {showText ? "LESS" : "MORE"}
+              </Button>
             </Typography>
-            {shortText}
+            <Typography sx={{ alignItems: "flex-start" }} component="span">
+              {username}
+            </Typography>
+            <Divider variant="inset" component="span" />
           </React.Fragment>
         }
-      />
-      <Button variant="contained" onClick={onClick}>More</Button>
+      ></ListItemText>
     </>
   );
 };
