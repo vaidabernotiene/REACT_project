@@ -9,12 +9,12 @@ import { useState } from "react";
 
 export const BlogItem = ({ post }) => {
   const { title, text, username } = post;
-  const [textLength, setTextLength] = useState(text.slice(0, 30) + "... ");
+  const [blogText, setBlogText] = useState(false);
   const [showText, setShowText] = useState(false);
 
   const handleOnClick = () => {
     setShowText(!showText);
-    setTextLength(text);
+    setBlogText(!blogText);
   };
 
   return (
@@ -37,7 +37,7 @@ export const BlogItem = ({ post }) => {
               }}
             >
               <Typography component="span" variant="body2" color="text.primary">
-              {!showText ? <p>{textLength}</p> : <p>{text}</p>}
+                {blogText ? <p>{text}</p> : <p>{text.slice(0, 30) + "..."}</p>}
               </Typography>
               <Button variant="contained" onClick={handleOnClick}>
                 {showText ? "LESS" : "MORE"}
